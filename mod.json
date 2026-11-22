@@ -1,0 +1,35 @@
+{
+	"geode": "6.0.0-beta.1",
+	"gd": {
+		"win": "2.2091"
+	},
+	"id": "voidlax.light-sensor",
+	"name": "light sensor",
+	"version": "v1.0.0",
+	"developer": "Voidlax",
+	"description": "Jump with a light sensor on a serial port.",
+	"settings": {
+		"enabled": {
+			"type": "bool",
+			"name": "Enabled",
+			"default": true
+		},
+		"threshold": {
+			"type": "int",
+			"name": "Threshold",
+			"default": 400,
+			"min": 50,
+			"max": 3000
+		},
+		"port": {
+			"type": "string",
+			"name": "Port",
+			"default": "COM3"
+		},
+		"show-diff": {
+			"type": "bool",
+			"name": "Show diff",
+			"default": true
+		}
+	}
+}
