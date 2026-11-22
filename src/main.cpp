@@ -86,6 +86,8 @@ void sensor() {
 		int firstCount = 0;
 		double base = 0;
 		bool down = false;
+		double peak = 0;
+		double low = 0;
 		int lo = 0;
 		int hi = 0;
 		ULONGLONG pressTime = 0;
@@ -142,8 +144,12 @@ void sensor() {
 				ULONGLONG now = GetTickCount64();
 
 				if (!down) {
-					if (d > threshold) {
+					if (d < low) {
+						low = d;
+					}
+					if (d > threshold && d - low > threshold * 0.5) {
 						down = true;
+						peak = d;
 						pressTime = now;
 						stillTime = now;
 						lo = v;
@@ -152,8 +158,12 @@ void sensor() {
 						base = base + (v - base) / 2000;
 					}
 				} else {
-					if (d < threshold * 0.5 && now - pressTime >= 40) {
+					if (d > peak) {
+						peak = d;
+					}
+					if ((d < threshold * 0.5 || d < peak * 0.75) && now - pressTime >= 40) {
 						down = false;
+						low = d;
 					} else {
 						if (v < lo) {
 							lo = v;
@@ -168,6 +178,7 @@ void sensor() {
 						} else if (now - stillTime > 4000) {
 							base = v;
 							down = false;
+							low = 0;
 						}
 					}
 				}
